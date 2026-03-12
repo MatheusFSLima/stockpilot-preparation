@@ -11,15 +11,11 @@ while True:
         '5 - Sair\n')
 
         opcao = int(input('Escolha uma opção: '))
-        print()
 
 #Cadastro de produtos:
 
         if opcao == 1:
-            print ('===== CADASTRAR PRODUTOS ======')
-            print ()
-
-
+            print ('===== CADASTRAR PRODUTOS =====\n')
             id_produto=len(produtos)+1
             nome_produto=input(f'Digite o nome do produto de ID #{id_produto}: ').strip().title()
             if nome_produto.replace (' ',''):
@@ -30,83 +26,85 @@ while True:
                         if quantidade_produto >=1:
                             produto={'id':id_produto,'nome':nome_produto,'valor':valor_produto,'quantidade':quantidade_produto}
                             produtos.append(produto)
-                            print ('Produto cadastrado com sucesso!\n\n'
-                                f'ID:{id_produto}\nProduto: {nome_produto}\nValor:R$ {valor_produto:.2f}\nQuantidade: {quantidade_produto}')
-                            print ()
-
+                            print ('\nProduto cadastrado com sucesso!\n\n'
+                                f'ID:{id_produto}\nProduto: {nome_produto}\nValor:R$ {valor_produto:.2f}\nQuantidade: {quantidade_produto}\n')
 
                         else:
-                            print ('Quantidade inválida')
-                            print()
+                            print ('Quantidade inválida\n')
                     else:
-                        print ('Valor inválido')
-                        print()
+                        print ('Valor inválido\n')
                 except ValueError:
-                    print ('Valor/Quantidade inválida')
-                    print()
+                    print ('Valor/Quantidade inválida\n')
             else:
-                print ('Produto inválido')
-                print()
+                print ('Produto inválido\n')
 
-
-
-
-
+#Listar produtos:
 
         elif opcao == 2:
-            print ('===== LISTAR PRODUTOS ======')
-            print ()
+            print ('\n===== LISTAR PRODUTOS =====\n')
             print ('1 - Listar produtos cadastrados')
-            print ('2 - Procurar produto cadastrado')
-            print ()
+            print ('2 - Procurar produtos cadastrados\n')
             opcao2=int(input('Escolha uma opção: '))
-            print()
 
             if opcao2 == 1:
                 if len(produtos) >= 1:
                     for produto in produtos:
-                        print (f'ID: {produto["id"]}')
+                        print (f'\nID: {produto["id"]}')
                         print (f'Produto: {produto["nome"]}')
                         print (f'Valor: {produto["valor"]}')
-                        print (f'Quantidade: {produto["quantidade"]}')
-                        print ()
+                        print (f'Quantidade: {produto["quantidade"]}\n')
                 else:
-                    print ('Você não possue produtos cadastrados')
-                    print ()
+                    print ('Você não possue produtos cadastrados\n')
 
             elif opcao2 == 2:
                 try:
+                    produto_encontrado = False
                     pesquisa_produto=int(input ('Digite o ID do produto: '))
-                    print()
-                    produto_encontrado= False
                     for produto in produtos:
                         if pesquisa_produto == produto["id"]:
-                            print (f'ID: {produto["id"]}')
+                            print (f'\nID: {produto["id"]}')
                             print (f'Produto: {produto["nome"]}')
                             print (f'Valor: {produto["valor"]}')
-                            print (f'Quantidade: {produto["quantidade"]}')
-                            print ()
+                            print (f'Quantidade: {produto["quantidade"]}\n')
 
                             produto_encontrado = True
                             break
 
                     if not produto_encontrado:
-                        print('ID inválido')
-                        print()
-
+                        print('ID inválido\n')
 
                 except ValueError:
-                        print('ID inválido')
-                        print()
+                        print('ID inválido\n')
 
             else:
-                print ('Opção inválida')
-                print()
+                print ('Opção inválida\n')
 
 
+#Atualizar quantidade de produtos:
 
         elif opcao == 3:
-            print ('Atualizar quantidade de produto')
+            print ('===== ATUALIZAR QUANTIDADE DE PRODUTOS =====\n')
+            try:
+                produto_encontrado = False
+                pesquisa_produto = int(input('Digite o ID do produto: '))
+                for produto in produtos:
+                    if pesquisa_produto == produto["id"]:
+                        produto_encontrado = True
+                        opcao3= (input(f'Produto: {produto["nome"]}. Deseja continuar? s/n: \n')).strip().lower()
+                        if opcao3 in ['s','sim']:
+                            print (f'\nProduto: {produto["nome"]}\n'
+                                   f'Quantidade: {produto["quantidade"]}\n')
+                            nova_quantidade= int(input ('Digite a nova quantidade: \n'))
+                            produto["quantidade"] = nova_quantidade
+                            print(f'\nQuantidade atualizada com sucesso!\n\nProduto: {produto["nome"]}\nNova quantidade: {nova_quantidade}\n')
+                            break
+
+                if not produto_encontrado:
+                    print ('ID inválido!\n')
+
+
+            except ValueError:
+                print('ID inválido!\n')
 
         elif opcao == 4:
             print ('Remover produto')
