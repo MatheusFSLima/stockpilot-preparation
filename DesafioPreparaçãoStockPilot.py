@@ -1,6 +1,7 @@
 #Mini sistema de produtos
 
 produtos = []
+proximo_id = 1
 while True:
     try:
         print ('===== SISTEMA DE PRODUTOS =====\n\n'
@@ -11,24 +12,22 @@ while True:
         '5 - Sair\n')
 
         opcao = int(input('Escolha uma opção: '))
-
 #Cadastro de produtos:
 
         if opcao == 1:
             print ('===== CADASTRAR PRODUTOS =====\n')
-            id_produto=len(produtos)+1
-            nome_produto=input(f'Digite o nome do produto de ID #{id_produto}: ').strip().title()
+            nome_produto=input(f'Digite o nome do produto: ').strip().title()
             if nome_produto.replace (' ',''):
                 try:
                     valor_produto=float(input ('Digite o valor do produto: '))
                     if valor_produto >0:
                         quantidade_produto=int(input('Digite a quantidade de produtos: '))
                         if quantidade_produto >=1:
-                            produto={'id':id_produto,'nome':nome_produto,'valor':valor_produto,'quantidade':quantidade_produto}
+                            produto={'id':proximo_id,'nome':nome_produto,'valor':valor_produto,'quantidade':quantidade_produto}
                             produtos.append(produto)
                             print ('\nProduto cadastrado com sucesso!\n\n'
-                                f'ID:{id_produto}\nProduto: {nome_produto}\nValor:R$ {valor_produto:.2f}\nQuantidade: {quantidade_produto}\n')
-
+                                f'ID:{proximo_id}\nProduto: {nome_produto}\nValor:R$ {valor_produto:.2f}\nQuantidade: {quantidade_produto}\n')
+                            proximo_id +=1
                         else:
                             print ('Quantidade inválida\n')
                     else:
@@ -107,8 +106,27 @@ while True:
                 print('ID inválido!\n')
 
         elif opcao == 4:
-            print ('Remover produto')
+            print('===== REMOVER PRODUTOS =====\n')
+            try:
+                produto_encontrado = False
+                pesquisa_produto = int ( input ('Digite o ID do produto que deseja remover: '))
+                for produto in produtos:
+                    if pesquisa_produto == produto["id"]:
+                        produto_encontrado = True
+                        opcao4 = (input(f'Produto: {produto["nome"]}. Deseja continuar com a remoção? s/n: \n')).strip().lower()
+                        if opcao4 in ['s','sim']:
+                            produtos.remove(produto)
+                            print (f'\nProduto: {produto["nome"]} removido com sucesso!\n')
+                            break
 
+
+
+
+                if not produto_encontrado:
+                    print('ID inválido!\n')
+
+            except ValueError:
+                print('ID inválido!\n')
         elif opcao == 5:
             print ('Sair')
             break
